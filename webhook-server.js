@@ -9,11 +9,22 @@ async function pull(repo) {
   await git.cwd(localPath).pull('origin', 'master')
 }
 
-polka()
-  .use(json())
-  .post('/webhook/push', async (req, res) => {
+const handlers = {
+  push: async (req, res) => {
     const { repository } = req.body
     pull(repository.full_name)
     res.end('success!')
-  })
-  .listen(process.env.HOOKS_PORT)
+  },
+
+  repo: async (req, res) => {
+    // const {  }
+  }
+}
+
+polka()
+  .use(json())
+  .post('/webhook/push', handlers.push)
+  .post('/webhook/repo', handlers.repo)
+  .listen(config.webhookPort)
+
+console.log('server listening at http://localhost:%d', config.webhookPort)

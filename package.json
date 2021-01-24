@@ -3,6 +3,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
+    "node-mkdirp": "^0.0.1",
     "polka": "^0.5.2",
     "simple-git": "^2.31.0"
   }

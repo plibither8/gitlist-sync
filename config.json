@@ -1,5 +1,10 @@
 {
-  "username": "plibither8",
-  "repositoriesPath": "/home/plibither8/",
-  "webhookBase": "https://git.mihir.ch/webhook"
+  "repositoriesPath": "/home/git/repositories",
+  "webhookBase": "https://git.mihir.ch/webhook",
+  "webhookPort": 5555,
+  "githubRepoListParams": {
+    "visibility": "public",
+    "affiliation": "owner",
+    "per_page": 100
+  }
 }
