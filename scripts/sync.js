@@ -11,6 +11,8 @@ const {
 
 async function main () {
   const currentRepoNames = require(`${config.repositoriesPath}/repositories.json`)
+
+  console.log('[INFO] Fetching new list')
   const updatedRepos = await getPublicRepos()
   const updatedRepoNames = updatedRepos.map(repo => repo.name)
 
@@ -18,6 +20,18 @@ async function main () {
     .filter(updated => !currentRepoNames.includes(updated))
     .map(name => updatedRepos.find(repo => repo.name === name))
   const deletedRepos = currentRepoNames.filter(current => !updatedRepoNames.includes(current))
+
+  const delta = {
+    new: newRepos.length,
+    deleted: deletedRepos.length
+  }
+
+  if (delta.new + delta.deleted === 0) {
+    console.log('[INFO] No changes, exiting.')
+    return
+  }
+
+  console.log('[Info] Delta:', delta)
 
   // rm deleted repos locally
   deletedRepos.map(async repo => {
