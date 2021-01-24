@@ -35,8 +35,8 @@ async function main () {
 
   // rm deleted repos locally
   deletedRepos.map(async repo => {
-    const path = path.join(config.repositoriesPath, repo)
-    await rmdir(path, { recursive: true })
+    const deletePath = path.join(config.repositoriesPath, repo)
+    await rmdir(deletePath, { recursive: true })
   })
 
   // clone new repos, setup description, add webhook
