@@ -15,9 +15,9 @@ async function main () {
   const updatedRepoNames = updatedRepos.map(repo => repo.name)
 
   const newRepos = updatedRepoNames
-    .filter(updated => !currentRepoNames.contains(updated))
+    .filter(updated => !currentRepoNames.includes(updated))
     .map(name => updatedRepos.find(repo => repo.name === name))
-  const deletedRepos = currentRepoNames.filter(current => !updatedRepoNames.contains(current))
+  const deletedRepos = currentRepoNames.filter(current => !updatedRepoNames.includes(current))
 
   // rm deleted repos locally
   deletedRepos.map(async repo => {
