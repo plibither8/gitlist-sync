@@ -31,7 +31,7 @@ async function main () {
     return
   }
 
-  console.log('[Info] Delta:', delta)
+  console.log('[INFO] Delta:', delta)
 
   // rm deleted repos locally
   deletedRepos.map(async repo => {
