@@ -14,5 +14,6 @@ polka()
   .post('/webhook/push', async (req, res) => {
     const { repository } = req.body
     pull(repository.full_name)
+    res.end('success!')
   })
   .listen(process.env.HOOKS_PORT)
