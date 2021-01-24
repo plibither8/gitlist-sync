@@ -2,8 +2,8 @@ require('dotenv').config()
 const crypto = require('crypto')
 const polka = require('polka')
 const { json } = require('body-parser')
-const config = require('./config.json')
 const git = require('simple-git')()
+const config = require('./config.json')
 
 function createComparisonSignature (body = '') {
   const hmac = crypto.createHmac('sha1', process.env.WEBHOOK_SECRET)
@@ -33,15 +33,14 @@ async function pull(repo) {
   await git.cwd(localPath).pull('origin', 'master')
 }
 
+/**
+ * All request handlers, as and when and if more get created
+ */
 const handlers = {
   push: async (req, res) => {
     const { repository } = req.body
     pull(repository.full_name)
     res.end('success!')
-  },
-
-  repo: async (req, res) => {
-    // const {  }
   }
 }
 
@@ -49,7 +48,6 @@ polka()
   .use(json())
   .use(verifyPayload)
   .post('/webhook/push', handlers.push)
-  .post('/webhook/repo', handlers.repo)
   .listen(config.webhookPort)
 
 console.log('server listening at http://localhost:%d', config.webhookPort)
