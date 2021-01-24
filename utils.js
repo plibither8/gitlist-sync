@@ -1,8 +1,9 @@
 require('dotenv').config()
+const { writeFile } = require('fs/promises')
+const path = require('path')
 const fetch = require('node-fetch')
 const config = require('./config.json')
 const git = require('simple-git')()
-const { writeFile } = require('fs/promises')
 
 const GH_API_BASE = 'https://api.github.com'
 const ghAuthHeaders = {
