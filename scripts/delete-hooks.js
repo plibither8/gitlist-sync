@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 const { ghAuthHeaders, getPublicRepos } = require('../utils')
 
-async function main() {
+async function main () {
   const hookUrl = 'https://git.mihir.ch/webhook/push'
   const repos = await getPublicRepos()
   let count = 0

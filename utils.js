@@ -10,18 +10,18 @@ const ghAuthHeaders = {
   Authorization: `token ${process.env.GH_TOKEN}`
 }
 
-function filterAndProcessRepos(repos) {
+function filterAndProcessRepos (repos) {
   return repos
     .filter(repo => !repo.fork)
-    .map(({full_name, description, ssh_url, hooks_url}) => ({
-      name: full_name,
+    .map(({
       description,
-      hookUrl: hooks_url,
-      cloneUrl: ssh_url
-    }))
+      full_name: name,
+      ssh_url: cloneUrl,
+      hooks_url: hookUrl
+    }) => ({ name, description, hookUrl, cloneUrl }))
 }
 
-function getPublicRepoParams() {
+function getPublicRepoParams () {
   const searchParams = new URLSearchParams()
   for (const [key, value] of Object.entries(config.githubRepoListParams)) {
     searchParams.set(key, value)
@@ -29,14 +29,14 @@ function getPublicRepoParams() {
   return searchParams
 }
 
-async function getPublicRepos() {
+async function getPublicRepos () {
   const searchParams = getPublicRepoParams()
   const response = await fetch(`${GH_API_BASE}/user/repos?${searchParams}`, { headers: ghAuthHeaders })
   const json = await response.json()
   return filterAndProcessRepos(json)
 }
 
-async function createMetaList(repos) {
+async function createMetaList (repos) {
   console.log('[INFO]', 'Creating list of cloned directories')
   const list = JSON.stringify(repos.map(repo => repo.name))
   const filePath = path.join(config.repositoriesPath, 'repositories.json')
@@ -44,22 +44,22 @@ async function createMetaList(repos) {
   return repos
 }
 
-async function cloneToPath(repo, log = false) {
-  if (log) console.log(`[INFO] Cloning %s`, repo.name)
+async function cloneToPath (repo, log = false) {
+  if (log) console.log('[INFO] Cloning %s', repo.name)
   const remotePath = repo.cloneUrl
   const localPath = path.join(config.repositoriesPath, repo.name)
   await git.clone(remotePath, localPath)
   return localPath
 }
 
-async function updateDescription(localPath, description, log = false) {
-  if (log) console.log(`[INFO] Adding description for %s`, repo.name)
+async function updateDescription (localPath, repo, log = false) {
+  if (log) console.log('[INFO] Adding description for %s', repo.name)
   const descriptionFilePath = path.join(localPath, '.git', 'description')
-  await writeFile(descriptionFilePath, description || '', 'utf-8')
+  await writeFile(descriptionFilePath, repo.description || '', 'utf-8')
 }
 
-async function createWebhook(webhookUrl, log = false) {
-  if (log) console.log(`[INFO] Creating webhook for %s`, repo.name)
+async function createWebhook (repo, log = false) {
+  if (log) console.log('[INFO] Creating webhook for %s', repo.name)
   const requestBody = {
     config: {
       url: config.webhookBase + '/push',
@@ -67,7 +67,7 @@ async function createWebhook(webhookUrl, log = false) {
       secret: process.env.WEBHOOK_SECRET
     }
   }
-  await fetch(webhookUrl, {
+  await fetch(repo.hookUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

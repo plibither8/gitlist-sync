@@ -11,7 +11,7 @@ function createComparisonSignature (body = '') {
   return `sha1=${signature}`
 }
 
-function compareSignatures (receivedSignature = '', selfSignature) {
+function compareSignatures (selfSignature, receivedSignature = '') {
   const source = Buffer.from(receivedSignature)
   const comparison = Buffer.from(selfSignature)
   return receivedSignature.length === selfSignature.length &&
@@ -22,13 +22,13 @@ function verifyPayload (req, res, next) {
   const { headers, body } = req
   const receivedSignature = headers['x-hub-signature']
   const selfSignature = createComparisonSignature(body)
-  if (!compareSignatures(receivedSignature, selfSignature)) {
+  if (!compareSignatures(selfSignature, receivedSignature)) {
     return res.writeHead(401).end('Signature mismatch!')
   }
   next()
 }
 
-async function pull(repo) {
+async function pull (repo) {
   const localPath = `${config.repositoriesPath}/${repo}`
   await git.cwd(localPath).pull('origin', 'master')
 }
