@@ -45,7 +45,7 @@ async function cloneToPath(repo) {
 
 async function updateDescription(localPath, description) {
   const descriptionFilePath = `${localPath}/.git/description`
-  await writeFile(descriptionFilePath, description, 'utf-8')
+  await writeFile(descriptionFilePath, description || '', 'utf-8')
 }
 
 async function createWebhook(webhookUrl) {
