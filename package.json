@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.1",
+    "simple-git": "^2.31.0"
+  }
+}
