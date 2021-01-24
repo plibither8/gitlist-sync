@@ -5,7 +5,7 @@ const config = require('./config.json')
 const git = require('simple-git')()
 
 async function pull(repo) {
-  const localPath = `${config.repositoriesPath}/${repoPath}`
+  const localPath = `${config.repositoriesPath}/${repo}`
   await git.cwd(localPath).pull('origin', 'master')
 }
 
