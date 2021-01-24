@@ -41,15 +41,9 @@ async function main () {
 
   // clone new repos, setup description, add webhook
   newRepos.map(async repo => {
-    console.log('[INFO] Cloning %s', repo.name)
-    const localPath = await cloneToPath(repo)
-
-    console.log('[INFO] Adding description for %s', repo.name)
-    await updateDescription(localPath, repo)
-
-    console.log('[INFO] Creating webhook for %s', repo.name)
-    await createWebhook(repo)
-
+    const localPath = await cloneToPath(repo, true)
+    await updateDescription(localPath, repo, true)
+    await createWebhook(repo, true)
     console.log('[INFO] Done %s', repo.name)
   })
 
