@@ -34,13 +34,13 @@ The script:
 
 * Clones all of my public repositories;
 * Adds, for each cloned repo, the GitHub desciption to the `.git/description` file;
-* Creates, for each cloned repo, a webhook for the `push` event that triggers a git pull on the respective repo.
+* Creates, for each cloned repo, a GitHub webhook for the `push` event that triggers a `git pull` on the respective repo whenever a new commit is pushed to the remote GitHub repo.
 
 ### Webhook Server
 
 Run: `node webhook-server`
 
-Triggers a `git pull` on the repo that got pushed to, retrieved from the webhook payload. Read about [GitHub webhooks here](https://docs.github.com/en/developers/webhooks-and-events/about-webhooks).
+This server listens for requests on the payload URLs (specified by `config.webhookBase` + `/push`) and triggers a `git pull` on the repo that got pushed to, retrieved from the webhook payload. Read about [GitHub webhooks here](https://docs.github.com/en/developers/webhooks-and-events/about-webhooks).
 
 The webhook is protected with secret, specified when programmatically creating the webhook in the Setup step. Signature verification ensures request integrity.
 
