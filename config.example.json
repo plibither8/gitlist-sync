@@ -6,5 +6,9 @@
     "visibility": "public",
     "affiliation": "owner",
     "per_page": 100
+  },
+  "exceptional_repos": {
+    "include": [],
+    "exclude": []
   }
 }

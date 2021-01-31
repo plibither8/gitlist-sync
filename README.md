@@ -8,7 +8,9 @@ This repo contains the scripts and webhook handling server for the setup and syn
 
 ## Configuration
 
-### [config.json](/config.js)
+### [config.json](/config.example.js)
+
+1. Create config.json file from config.example.json: `cp config.example.json config.json`
 
 * `repositoriesPath` is the local path where your git repos are going to be stored.
 * `webhookBase` is the base url to which the webhook will be attached.
