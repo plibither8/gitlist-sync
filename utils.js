@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: __dirname + '/.env' })
 const { writeFile } = require('fs/promises')
 const path = require('path')
 const fetch = require('node-fetch')
